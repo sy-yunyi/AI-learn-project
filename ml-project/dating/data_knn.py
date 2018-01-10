@@ -83,6 +83,7 @@ def create_matplotlab_img(data_set,labels):
 
     fig = plt.figure()
     ax=fig.add_subplot(111)
+
     #设置数据属性
     type_1=ax.scatter(type_1_x,type_1_y,s=20,c='red',alpha=0.9,marker='*')
     type_2=ax.scatter(type_2_x,type_2_y,s=40,c='blue',fontproperties=zh_font)

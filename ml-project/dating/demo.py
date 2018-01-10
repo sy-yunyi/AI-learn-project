@@ -38,7 +38,7 @@ def demo_array():
     # np_array=np.zeros((10,2))
     # print(np_array)
     d=[1,2,3,4,5,6]
-    for i in range(len(d)):
-        pass
+    print(d[:1])
+    print(d[2:])
 if __name__ == '__main__':
     demo_array()
