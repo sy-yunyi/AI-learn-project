@@ -32,5 +32,5 @@ def splitDataSet(dataSet,axis,value):
 
 #选择最好的数据集划分
 def chooseDataFeatureToSplit(dataSet):
-    
+
 
