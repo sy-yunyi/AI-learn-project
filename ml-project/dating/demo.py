@@ -1,3 +1,5 @@
+#encoding:utf-8
+
 #导入相关工具包
 
 import numpy as np
@@ -38,7 +40,8 @@ def demo_array():
     # np_array=np.zeros((10,2))
     # print(np_array)
     d=[1,2,3,4,5,6]
-    print(d[:1])
-    print(d[2:])
+    np_a=np.zeros(34)
+    print(d/2)
+    print(np_a)
 if __name__ == '__main__':
     demo_array()
