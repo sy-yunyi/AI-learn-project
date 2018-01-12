@@ -163,8 +163,6 @@ if __name__ == '__main__':
     # posting_list,class_vet=load_data_set()
     # vocabList=create_vocab_list(posting_list)
     # word_vec=setOf2WordVec(['I', 'need', 'help'],vocabList)
-    # print(word_vec)
-    # print(vocabList)
 
     list_posts,list_classes=load_data_set()
     my_vocab_list = create_vocab_list(list_posts)

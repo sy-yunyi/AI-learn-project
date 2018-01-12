@@ -16,11 +16,20 @@ def create_vocab_list(data_set):
     #     vocabSet = vocabSet | set(i_vec)     #求并集
     # return list(vocabSet)
 
-    data_list=[]
+    data_list = []
     for vec in data_set:
         data_list.extend(vec)
-    data=set(data_list)
-    return(list(data))
+    data = set(data_list)
+    stop_words_list = get_stop_words()
+    data = data - stop_words_list
+    return (list(data))
+
+def get_stop_words():
+    file_path = './email/stop_words_en.txt'
+    fd = open(file_path)
+    file_data = fd.read()
+    words_list = text_parse(file_data)
+    return set(words_list)
 
 def set_of_words_to_vec(vocab_list,inupt_set):
     """
@@ -80,7 +89,7 @@ def train_nb(train_data_set,train_category):
             p_1_denom += sum(train_data_set[i])
     p_0_vect = np.log(p_0_num/p_0_denom)
     p_1_vect = np.log(p_1_num / p_1_denom)
-    print(p_0_vect,p_1_vect,p_abusive)
+    # print(p_0_vect,p_1_vect,p_abusive)
     return p_0_vect,p_1_vect,p_abusive
 
 def classify_nb(vec_to_classify,p_0_vect,p_1_vect,p_class):
@@ -137,10 +146,11 @@ def spam_test():
         class_list.append(0)
     # print(doc_list,len(doc_list))
     vocab_list = create_vocab_list(doc_list)            #创建词汇表
+    print(len(vocab_list))
     training_set = list(range(50))
     test_set = []
     #构建测试集容器
-    for i in range(10):
+    for i in range(30):
         rand_index = int(random.uniform(0,len(training_set)))
         test_set.append(training_set[rand_index])
         del (training_set[rand_index])
@@ -153,12 +163,17 @@ def spam_test():
 
     p_0_v,p_1_v,p_spam = train_nb(np.array(training_mat),np.array(training_classes))
 
+    error_count = 0.0
     for doc_index in test_set:
         word_vector = set_of_words_to_vec(vocab_list,doc_list[doc_index])
         if classify_nb(np.array(word_vector),p_0_v,p_1_v,p_spam) != class_list[doc_index]:
-            print()
-        else:
-            print ()
+            error_count += 1
+            # print()
+        # else:
+            # print ()
+    print('错误率为：%0.2f%%.' % (error_count/float(len(test_set))*100))
+
+
 if __name__ == '__main__':
     # word = 'This book is the best book on Python or M.L. I have ever laid eyes upon.'
     # # print(word.split())
