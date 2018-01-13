@@ -81,15 +81,29 @@ def local_words(feed_0, feed_1):
         training_mat.append(bag_of_words_to_vec(vocab_list,doc_list[doc_index]))
         train_classes.append(class_list[doc_index])
 
-    p_0_v ,p_1_v,p_class = train_nb(np.array(training_mat),np.array(train_classes))  #训练模型
-
-    error_count = 0.0
-    for doc_index in test_set:
-        word_vector = bag_of_words_to_vec(vocab_list,doc_list[doc_index])
-        if classify_nb(np.array(word_vector),p_0_v,p_1_v,p_class) != class_list[doc_index]:
-            error_count += 1
-    print('错误率为：%0.2f%%' % (float(error_count)/len(test_set)*100))
-    return vocab_list,p_0_v,p_1_v
+    # p_0_v ,p_1_v,p_class = train_nb(np.array(training_mat),np.array(train_classes))  #训练模型
+    # print(p_0_v,p_1_v)
+    clf = classifier_nb_sk(training_mat,train_classes)
+    score = clf.score(training_mat,train_classes)
+    print(score)
+    # error_count = 0.0
+    # p_0_v = []
+    # p_1_v = []
+    # for doc_index in test_set:
+    #     word_vector = bag_of_words_to_vec(vocab_list,doc_list[doc_index])
+    #     p_class=clf.predict([np.array(word_vector)])
+    #     p_v_i = clf.predict_log_proba([np.array(word_vector)])
+    #     # print(p_v_i[0])
+    #     p_0_v.extend(p_v_i[0])
+    #     p_1_v.extend(p_v_i[0])
+    #     # print(p_1_v_i)
+    #     # if classify_nb(np.array(word_vector),p_0_v,p_1_v,p_class) != class_list[doc_index]:
+    #     if p_class != class_list[doc_index]:
+    #         error_count += 1
+    # print('错误率为：%0.2f%%' % (float(error_count)/len(test_set)*100))
+    # print(len(p_0_v))
+    # print(p_1_v)
+    # return vocab_list,p_0_v,p_1_v
 
 def get_top_words(ny,sf):
     """
@@ -121,6 +135,6 @@ if __name__ == '__main__':
     sf_rss = 'https://sfbay.craigslist.org/search/stp?format=rss'
     feed_0 = feedparser.parse(ny_rss)
     feed_1 = feedparser.parse(sf_rss)
-    # local_words(feed_0,feed_1)
+    local_words(feed_0,feed_1)
     # print(tc_rss.keys())
-    get_top_words(feed_0,feed_1)
+    # get_top_words(feed_0,feed_1)

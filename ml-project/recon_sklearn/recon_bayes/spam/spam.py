@@ -34,12 +34,13 @@ def spam_test():
         training_mat.append(set_of_words_to_vec(vocab_list,doc_list[doc_index]))
         training_classes.append(class_list[doc_index])
 
-    p_0_v,p_1_v,p_spam = train_nb(np.array(training_mat),np.array(training_classes))
-
+    # p_0_v,p_1_v,p_spam = train_nb(np.array(training_mat),np.array(training_classes))
+    clf = classifier_nb_sk(training_mat, training_classes)
     error_count = 0.0
     for doc_index in test_set:
         word_vector = set_of_words_to_vec(vocab_list,doc_list[doc_index])
-        if classify_nb(np.array(word_vector),p_0_v,p_1_v,p_spam) != class_list[doc_index]:
+        # if classify_nb(np.array(word_vector),p_0_v,p_1_v,p_spam) != class_list[doc_index]:
+        if clf.predict([np.array(word_vector)]) != class_list[doc_index]:
             error_count += 1
             # print()
         # else:

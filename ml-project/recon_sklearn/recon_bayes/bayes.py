@@ -64,7 +64,7 @@ def bag_of_words_to_vec(vocab_list,inupt_set):
     return_vec=len(vocab_list)*[0]   #创建一个所含元素都为0的列表
     for word in inupt_set:
         if word in vocab_list:
-            return_vec[vocab_list.index(word)] = 1
+            return_vec[vocab_list.index(word)] += 1
         # else:
         #     print('单词：%s 并没有在当前的词汇表中' % word)
     return return_vec
@@ -118,6 +118,9 @@ def classify_nb(vec_to_classify,p_0_vect,p_1_vect,p_class):
 def classifier_nb_sk(data_set,data_category):
     clf = GaussianNB().fit(data_set,data_category)
     return clf
+
+
+
 
 def get_stop_words():
     file_path = '../data/stop_words_en.txt'
