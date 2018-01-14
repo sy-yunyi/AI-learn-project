@@ -13,7 +13,7 @@ def kmeanDIY(data, k):
     point_selected = np.random.choice(n_samples,k,replace=False)  #从数据中随机选K个点，并且不重复
     centroids = samples[point_selected]
     #标记变量，作为跳出循环条件，当一次循环中没有一个点的分类被改变，则终止循环
-    print(type(centroids[0]),centroids)
+    # print(type(centroids[0]),centroids)
     cluster_changed = True
     cluster_assment = np.zeros([n_samples, 2])  # 第一列记录当前点归属那一类，第二列距离中心点的距离
     colors = ['r', 'g', 'k', 'c', 'y', 'tan', 'gold', 'steelblue', 'darkred']
@@ -192,12 +192,57 @@ def kmean2_base(data_set,k):
 
 
 
+def kmeans_mat(data_set,k):
+    samples = np.array(data_set)
+    n_samples = samples.shape[0]
+
+    point_selected = np.random.choice(n_samples,k,replace=False)
+    centroids = samples[point_selected]
+
+    cluster_assment = np.zeros([n_samples,2])
+
+    samples = np.mat(samples)
+    centroids = np.mat(centroids)
+    cluster_changed = True
+    while (cluster_changed):
+        cluster_changed = False
+        centroids_t = centroids.T
+        vec_prod = samples * centroids_t
+
+        sq_s = samples.getA()**2
+        sum_sq_s = np.matrix(np.sum(sq_s, axis=1))
+        sum_sq_sEx = np.tile(sum_sq_s.transpose(), (1, vec_prod.shape[1]))
+
+        sq_c = centroids.getA() ** 2
+        sum_sq_c = np.sum(sq_c, axis=1)
+        sum_sq_cEx = np.tile(sum_sq_c, (vec_prod.shape[0], 1))
+
+        sq_e_d = sum_sq_cEx + sum_sq_sEx - 2*vec_prod
+        min_index = np.argmin(sq_e_d,axis = 1)
+        min_index = min_index.A.flatten()
+        min_dis = np.min(sq_e_d,axis = 1).A.flatten()
+        # print(sq_e_d)
+        # print(min_dis)
+        # for i in range(len(min_index)):
+        #     min_dis = sq_e_d[i,min_index[i]]
+        cluster_l = list(cluster_assment[:,0])
+        min_index_l = list(min_index)
+        if cluster_l != min_index_l:
+            cluster_changed = True
+            cluster_assment[:,0] = min_index
+            cluster_assment[:,1] = min_dis
+        for j in range(k):
+            tmp = samples[cluster_assment[:, 0] == j, :]
+            centroids[j, :] = np.mean(tmp, axis=0)  # 把每一类中的点的均值作为新的聚类点
+    return centroids, cluster_assment
+
+
 
 colors = ['r','g','k','c','y','tan','gold','steelblue','darkred']
 
 X,y = make_blobs(n_samples=150,n_features=2,centers=3,cluster_std=0.5,random_state=0)
 n_clusters = 3
-centroids, cluster_assment = kmean2_base(X,n_clusters)
+centroids, cluster_assment = kmeans_mat(X,n_clusters)
 # print(centroids)
 
 for i in range(n_clusters):
