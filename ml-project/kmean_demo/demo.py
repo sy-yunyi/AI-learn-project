@@ -1,7 +1,7 @@
 # Kmean 实现
 
 import numpy as np
-from sklearn.datasets import *
+from sklearn.datasets import make_blobs
 import matplotlib.pyplot as plt
 
 def kmeanDIY(data, k):
@@ -119,9 +119,12 @@ def kmean_adv(data_set,k):
 
 
 
+
+
+
 X,y = make_blobs(n_samples=350,n_features=2,centers=3,cluster_std=0.5,random_state=0)
 n_clusters = 3
-centroids, cluster_assment = kmean_adv(X,n_clusters)
+centroids, cluster_assment = kmeanDIY(X,n_clusters)
 # print(centroids)
 
 # colors = ['r','g','k','c','y','tan','gold','steelblue','darkred']
