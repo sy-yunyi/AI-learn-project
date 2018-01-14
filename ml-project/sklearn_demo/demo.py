@@ -48,7 +48,8 @@ print(prediction)
 
 #判定目标类别概率
 prediction_proba = clf.predict_proba([in_x_1,in_x_2])
-print(prediction_proba)
+print('*'*10)
+print(prediction_proba[0])
 
 #测试分类模型准确率
 

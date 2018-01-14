@@ -1,6 +1,6 @@
 # 贝叶斯基础方法
 
-from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import MultinomialNB
 import numpy as np
 import re
 import os
@@ -116,7 +116,7 @@ def classify_nb(vec_to_classify,p_0_vect,p_1_vect,p_class):
         return 1
 
 def classifier_nb_sk(data_set,data_category):
-    clf = GaussianNB().fit(data_set,data_category)
+    clf = MultinomialNB().fit(data_set,data_category)
     return clf
 
 
