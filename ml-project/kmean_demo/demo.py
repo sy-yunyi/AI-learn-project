@@ -179,15 +179,8 @@ def kmean2_base(data_set,k):
             # min_dist = np.array(dis_vec).min()
             # min_index = dis_vec.index(min_dist)
 
-<<<<<<< HEAD
 
-
-
-X,y = make_blobs(n_samples=350,n_features=2,centers=3,cluster_std=0.5,random_state=0)
-n_clusters = 3
-centroids, cluster_assment = kmeanDIY(X,n_clusters)
-=======
-            # 判断点的距离中心是否改变
+          # 判断点的距离中心是否改变
             if cluster_assment[i,0] != min_index :
                 cluster_assment[i,:] = min_index,min_dist
                 cluster_changed = True
@@ -197,6 +190,8 @@ centroids, cluster_assment = kmeanDIY(X,n_clusters)
             tmp = samples[cluster_assment[:,0] == i,:]
             centroids[i,:] = np.mean(tmp, axis = 0)    #把每一类中的点的均值作为新的聚类点
     return centroids, cluster_assment
+
+
 
 
 
@@ -250,7 +245,7 @@ colors = ['r','g','k','c','y','tan','gold','steelblue','darkred']
 
 X,y = make_blobs(n_samples=150,n_features=2,centers=3,cluster_std=0.5,random_state=0)
 n_clusters = 3
-centroids, cluster_assment = kmeans_mat(X,n_clusters)
+centroids, cluster_assment = kmeanDIY(X,n_clusters)
 # print(centroids)
 
 for i in range(n_clusters):
@@ -259,7 +254,6 @@ for i in range(n_clusters):
     plt.scatter(tmp[:,0],tmp[:,1],c = colors[i],s=50)
 
 # color_s = ['steelblue','y','b']
->>>>>>> f296b9e0428f7c39f4be3091c50b47f04ce815c4
 # print(centroids)
 # for i in range(len(centroids)):
 #     print(i)
