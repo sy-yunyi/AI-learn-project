@@ -1,7 +1,7 @@
 # Kmean 实现
 
 import numpy as np
-from sklearn.datasets import *
+from sklearn.datasets import make_blobs
 import matplotlib.pyplot as plt
 
 # 老师
@@ -195,7 +195,8 @@ def kmean2_base(data_set,k):
             # min_dist = np.array(dis_vec).min()
             # min_index = dis_vec.index(min_dist)
 
-            # 判断点的距离中心是否改变
+
+          # 判断点的距离中心是否改变
             if cluster_assment[i,0] != min_index :
                 cluster_assment[i,:] = min_index,min_dist
                 cluster_changed = True
@@ -207,7 +208,13 @@ def kmean2_base(data_set,k):
     return centroids, cluster_assment
 
 
+<<<<<<< HEAD
 # 转矩阵
+=======
+
+
+
+>>>>>>> 0338b34f90db58439245cd5c0c67ad7be97a78be
 def kmeans_mat(data_set,k):
     samples = np.array(data_set)
     n_samples = samples.shape[0]
@@ -260,7 +267,11 @@ colors = ['r','g','k','c','y','tan','gold','steelblue','darkred']
 
 X,y = make_blobs(n_samples=150,n_features=2,centers=3,cluster_std=0.5,random_state=0)
 n_clusters = 3
+<<<<<<< HEAD
 centroids, cluster_assment = kmean2_base(X,n_clusters)
+=======
+centroids, cluster_assment = kmeanDIY(X,n_clusters)
+>>>>>>> 0338b34f90db58439245cd5c0c67ad7be97a78be
 # print(centroids)
 
 for i in range(n_clusters):
