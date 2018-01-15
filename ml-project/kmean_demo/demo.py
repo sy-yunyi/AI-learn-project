@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.datasets import *
 import matplotlib.pyplot as plt
 
+# 老师
 def kmeanDIY(data, k):
     #将数据集转换为numpy数组
     samples = np.array(data)
@@ -12,6 +13,21 @@ def kmeanDIY(data, k):
 
     point_selected = np.random.choice(n_samples,k,replace=False)  #从数据中随机选K个点，并且不重复
     centroids = samples[point_selected]
+
+
+
+    # Kmeas++
+    # centroids = samples[np.random.randint(0,n_samples,1)]
+    # tmp = np.argmax(np.sum(np.square(samples - centroids),axis = 1))
+    # centroids = np.row_stack([samples[tmp],centroids])
+    # if k > 2 :
+    #     for i2 in range(2,k):
+    #         distances = []
+    #         for i in range(n_samples):  #遍历所有样本点
+    #             distances.append(min(np.sum(np.square(samples[i] - centroids),axis = 1)))
+    #         tmp = np.argmax(distances)
+    #         centroids = np.row_stack([samples[tmp],centroids])
+
     #标记变量，作为跳出循环条件，当一次循环中没有一个点的分类被改变，则终止循环
     # print(type(centroids[0]),centroids)
     cluster_changed = True
@@ -191,7 +207,7 @@ def kmean2_base(data_set,k):
     return centroids, cluster_assment
 
 
-
+# 转矩阵
 def kmeans_mat(data_set,k):
     samples = np.array(data_set)
     n_samples = samples.shape[0]
@@ -207,8 +223,9 @@ def kmeans_mat(data_set,k):
     while (cluster_changed):
         cluster_changed = False
         centroids_t = centroids.T
-        vec_prod = samples * centroids_t
+        vec_prod = samples * centroids_t       #samples * centroids 的转置
 
+        # 求每组每个向量的模平方
         sq_s = samples.getA()**2
         sum_sq_s = np.matrix(np.sum(sq_s, axis=1))
         sum_sq_sEx = np.tile(sum_sq_s.transpose(), (1, vec_prod.shape[1]))
@@ -238,11 +255,12 @@ def kmeans_mat(data_set,k):
 
 
 
+
 colors = ['r','g','k','c','y','tan','gold','steelblue','darkred']
 
 X,y = make_blobs(n_samples=150,n_features=2,centers=3,cluster_std=0.5,random_state=0)
 n_clusters = 3
-centroids, cluster_assment = kmeans_mat(X,n_clusters)
+centroids, cluster_assment = kmean2_base(X,n_clusters)
 # print(centroids)
 
 for i in range(n_clusters):
