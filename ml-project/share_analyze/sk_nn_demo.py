@@ -7,6 +7,8 @@ import tushare as ts
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import preprocessing
+import pdb
+from sklearn.neural_network import MLPClassifier
 
 
 object_trade = '000001'
@@ -19,6 +21,7 @@ def get_xy(start_date,end_date):
     :return: 数据集和增益
     """
     data = ts.get_k_data(object_trade,index=True,start=start_date,end=end_date)
+
     closes = data['close'].values
     opens = data['open'].values
     highs = data['high'].values
@@ -57,34 +60,32 @@ def fig(labels,labels_u,re_y):
     plt.grid()         # 画出表格
     plt.show()
 
-x,y = get_xy('2000-01-01','2013-01-01')
 
-# x = (x-x.mean(axis=0))/x.std(axis=0)
-# 归一化，和上面含义一样
+
+
+x,y = get_xy('2000-01-01','2013-01-01')
+tmp = np.ones(len(y))
+tmp[y > 0.005] = 2
+tmp[y < -0.005] = 0
 scaler = preprocessing.StandardScaler()
 x =scaler.fit_transform(x)
-print(x.shape)
-pca = PCA(3)
-x = pca.fit_transform(x)   #
 
-kmean = KMeans(n_clusters=6)
-kmean.fit(x)
-labels = kmean.labels_
+pca = PCA(3)
+x = pca.fit_transform(x)
+
+# pdb.set_trace()
+# solver(修改误差方法) :sgd(一定程度上跳出局部最优),adma(数据大),lbfgs(数据少)
+clf = MLPClassifier(solver='adam', max_iter=2000, hidden_layer_sizes=(10,5),activation='tanh')
+kk = clf.fit(x,tmp)
+
+
+labels = clf.predict(x)
 labels_u = np.unique(labels)
 # fig(labels,labels_u,y)
 
 x,y = get_xy('2013-01-01','2018-01-01')
+
 x = scaler.transform(x)
 x = pca.transform(x)
-labels = kmean.predict(x)
+labels = clf.predict(x)
 fig(labels,labels_u,y)
-
-
-# loss = []      #存放每个分类值对应的ERROR或LOSS
-# for i in range(2,12):
-#     kmean = KMeans(n_clusters=i)  # 创建方法，分类
-#     kmean.fit(x)     # 对特征值进行训练
-#     loss.append(kmean.inertia_)
-# plt.plot(list(range(2,12)),loss)
-# plt.grid()
-# plt.show()
