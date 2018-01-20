@@ -35,8 +35,8 @@ def task2(data_set,n):
     :return:选中的特征向量
     """
     mean_v = np.mean(data_set,axis=0)
-    data_new  = (data_set - mean_v)/np.std(data_set,axis=0)
-    # data_new  = (data_set - mean_v)
+    # data_new  = (data_set - mean_v)/np.std(data_set,axis=0)
+    data_new  = (data_set - mean_v)
 
     cov_data = np.cov(data_new, rowvar= 0)
     eig_vals, eig_vects = np.linalg.eig(cov_data)

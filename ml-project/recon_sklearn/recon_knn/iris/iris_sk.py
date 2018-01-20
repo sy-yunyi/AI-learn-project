@@ -61,7 +61,9 @@ def classifier_iris_sk_test():
     ratio = 0.5
     data_set, lables,count_class = load_to_data_set('../data/iris.data')    #加载数据文件
     data_set,data_set_test,lables,lables_test=get_data_ratio(data_set,ratio,count_class,lables)  #获取训练数据集，测试数据集及对应分类向量
+
     result_calss = classifer_sk(data_set_test,data_set,lables,3)
+
     error_count = 0.0
     for i in range(len(result_calss)):
         if result_calss[i] != lables_test[i]:
